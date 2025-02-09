@@ -6,10 +6,10 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 
-def get_fair_normalized_adj_matrix(A: np.ndarray,
-                                   s: np.ndarray,
-                                   mu: float=0.1,
-                                   y: float=0.1):
+def _get_fair_normalized_adj_matrix(A: np.ndarray,
+                                    s: np.ndarray,
+                                    mu: float=0.1,
+                                    y: float=0.1):
     """
     Adds fairness regulation and normalizes the adjacency matrix.
 
@@ -50,7 +50,7 @@ def fair_clustering_wk(A: np.ndarray,
     :return: cluster object
     """
     assert A.shape[0] == s.shape[0] and A.shape[1] == s.shape[0], "s should be a vector of size A's rows and columns"
-    A_ = get_fair_normalized_adj_matrix(A, s, mu, y)
+    A_ = _get_fair_normalized_adj_matrix(A, s, mu, y)
     x = SpectralClustering(n_clusters=k,
                            affinity='precomputed',
                            assign_labels='discretize',
@@ -81,7 +81,7 @@ def find_best_k_cluster(A: np.ndarray,
 
     for k in range(2, stop_k):
         x = fair_clustering_wk(A, s, mu=mu, y=y, k=k)
-        A_ = get_fair_normalized_adj_matrix(A, s, mu, y)
+        A_ = _get_fair_normalized_adj_matrix(A, s, mu, y)
         D = np.exp(-gamma * A_)
         np.fill_diagonal(D, 0)
 
