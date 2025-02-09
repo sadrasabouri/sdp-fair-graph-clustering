@@ -3,9 +3,11 @@
 
 import numpy as np
 from sklearn.metrics import normalized_mutual_info_score, silhouette_score
+from sklearn.metrics import pairwise_distances
+
 import networkx as nx
 
-def demographic_parity(clusters, sensitive_attrs):
+def demographic_parity(clusters: dict, sensitive_attrs: dict):
     """
     Computes the demographic parity balance across clusters.
     
@@ -34,7 +36,7 @@ def demographic_parity(clusters, sensitive_attrs):
     
     return min_ratio / max_ratio if max_ratio > 0 else 1
 
-def fairness_violation(clusters, sensitive_attrs):
+def fairness_violation(clusters:dict, sensitive_attrs:dict):
     """
     Measures the deviation of group representation in clusters from the overall distribution.
     
@@ -58,7 +60,7 @@ def fairness_violation(clusters, sensitive_attrs):
     
     return np.mean(violations)
 
-def consistency_score(graph, clusters, sensitive_attrs):
+def consistency_score(graph: nx.Graph, clusters: dict, sensitive_attrs: dict):
     """
     Computes the consistency of clusters based on sensitive attributes.
     
@@ -75,9 +77,8 @@ def consistency_score(graph, clusters, sensitive_attrs):
     
     return total_score / len(graph.edges())
 
-from sklearn.metrics import pairwise_distances
 
-def modularity(graph, clusters):
+def modularity(graph: nx.Graph, clusters: dict):
     """
     Computes modularity score for the given clustering.
     
@@ -86,7 +87,7 @@ def modularity(graph, clusters):
     return nx.algorithms.community.quality.modularity(graph, 
                 [{node for node, c in clusters.items() if c == cluster} for cluster in set(clusters.values())])
 
-def nmi_score(true_labels, predicted_labels):
+def nmi_score(true_labels: np.ndarray, predicted_labels: np.ndarray):
     """
     Computes Normalized Mutual Information (NMI) score.
     
@@ -128,6 +129,14 @@ def fairness_quality_tradeoff(fairness_score, quality_score, alpha=0.5):
     Returns: Tradeoff score (higher is better)
     """
     return alpha * quality_score + (1 - alpha) * fairness_score
+
+def convert_clusters_to_dict(clusters):
+    """
+    Converts cluster assignments to a dictionary.
+    
+    Returns: {node_id: cluster_id}
+    """
+    return {i: c for i, c in enumerate(clusters)}
 
 # main
 if __name__ == '__main__':
