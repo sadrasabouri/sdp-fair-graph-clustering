@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from typing import Callable
+import itertools
+from tqdm import tqdm
 from sklearn.cluster import SpectralClustering
 from sklearn.metrics import silhouette_score
 from sklearn.decomposition import TruncatedSVD
@@ -30,6 +33,38 @@ def _get_fair_normalized_adj_matrix(A: np.ndarray,
 
     A_norm = (A_ - A_.min()) / (A_.max() - A_.min())
     return A_norm
+
+
+def fair_clustering_best_parameter(A: np.ndarray,
+                                   s: np.ndarray,
+                                   metric: Callable,
+                                   mu_range: list=np.arange(0, 1, 0.1),
+                                   y_range: list=np.arange(0, 1, 0.1),
+                                   k: int=2):
+    """
+    Fair clustering with best parameters using greedy search.
+
+    :param A: Adjacency matrix
+    :param s: Specifity vector
+    :param mu_range: mu range
+    :param y_range: y range
+    :param k: number of clusters
+    :param metric: metric to use for evaluation
+    :param x_act: actual cluster labels
+    :return: cluster object with best parameters
+    """
+    best_score = -1
+    best_params = None
+    best_cluster = None
+
+    for mu, y in itertools.product(mu_range, y_range):
+        x = fair_clustering_wk(A, s, mu=mu, y=y, k=k)
+        score = metric(x.labels_)
+        if score > best_score:
+            best_score = score
+            best_params = (float(mu), float(y))
+            best_cluster = x
+    return best_cluster, {"mu": best_params[0], "y": best_params[1]}, best_score
 
 
 def fair_clustering_wk(A: np.ndarray,
