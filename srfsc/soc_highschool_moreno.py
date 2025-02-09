@@ -1,36 +1,21 @@
 # -*- coding: utf-8 -*-
-"""https://networkrepository.com/soc-highschool-moreno.php
-"""
-
 import numpy as np
 import scipy.sparse as sp
 import os
-import zipfile
 import os
 
-# Path to the uploaded ZIP file
-zip_path = "/content/soc-highschool-moreno.zip"
-extract_path = "/content/facebook_data"
 
-# Extract the ZIP file
-with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-    zip_ref.extractall(extract_path)
-
-print("Extraction complete. Files available:")
-print(os.listdir(extract_path))
-
-
-def load_facebook():
+def load_moreno():
     """
-    Load the FacebookNet (High School) dataset from extracted files.
+    Load the Moreno dataset from extracted files.
     """
-    path = "/content/facebook_data"
+    path = "./moreno_data"
     file_name = "soc-highschool-moreno.edges"
 
     # Check if file exists
     file_path = os.path.join(path, file_name)
     if not os.path.exists(file_path):
-        raise FileNotFoundError(f"File {file_path} not found. Please check extraction.")
+        raise FileNotFoundError(f"File {file_path} not found. Please download soc-highschool-moreno.zip from https://networkrepository.com/soc-highschool-moreno.php and extract it to moreno_data/")
 
     # Load edges, skipping commented lines
     edges = np.loadtxt(file_path, dtype=int, comments='%')
@@ -50,6 +35,6 @@ def load_facebook():
     return A, sensitivity_vector
 
 if __name__ == "__main__":
-    A, s = load_facebook()
+    A, s = load_moreno()
     print(f"Adjacency matrix shape: {A.shape}")
     print(f"Sensitive attribute vector shape: {s.shape}")
