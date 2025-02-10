@@ -41,7 +41,10 @@ for metric_file in METRIC_FILES:
             our_points_y.append(ofm["score:"])
         plt.scatter(our_points_x, our_points_y, label="SRFSC - SC (ours)", color=COLOR_LIST[i], marker=MARKER_LIST[i])
         plt.xlabel(cmetri)
-        plt.ylabel(fmetric)
+        if fmetric == "Demographic Parity":
+            plt.ylabel("Clustering Balance")
+        else:
+            plt.ylabel(fmetric)
         plt.title(f"{fmetric} vs {cmetri} for {metric_file.replace('.json', '').replace('_', ' ').capitalize()}")
         plt.legend()
         plt.savefig(f"{metric_file}_{cmetri}_{fmetric}.pdf", bbox_inches='tight')
