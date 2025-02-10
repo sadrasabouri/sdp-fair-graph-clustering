@@ -57,14 +57,20 @@ def fair_clustering_best_parameter(A: np.ndarray,
     best_params = None
     best_cluster = None
 
+    scores = []
     for mu, y in tqdm(itertools.product(mu_range, y_range)):
         x = fair_clustering_wk(A, s, mu=mu, y=y, k=k)
         score = metric(x.labels_)
+        scores.append({
+            "score:":score,
+            "mu": mu,
+            "y": y
+            })
         if score > best_score:
             best_score = score
             best_params = (float(mu), float(y))
             best_cluster = x
-    return best_cluster, {"mu": best_params[0], "y": best_params[1]}, best_score
+    return best_cluster, {"mu": best_params[0], "y": best_params[1]}, best_score, scores
 
 
 def fair_clustering_wk(A: np.ndarray,

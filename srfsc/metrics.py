@@ -93,6 +93,8 @@ def nmi_score(true_labels: np.ndarray, predicted_labels: np.ndarray):
     
     Returns: NMI score (higher is better)
     """
+    if None in true_labels or None in predicted_labels:
+        return 0
     return normalized_mutual_info_score(true_labels, predicted_labels)
 
 def silhouette_score_custom(data, cluster_labels):
@@ -101,6 +103,8 @@ def silhouette_score_custom(data, cluster_labels):
     
     Returns: Silhouette score (-1 to 1, higher is better)
     """
+    if len(set(cluster_labels)) == 1:
+        return -1
     return silhouette_score(pairwise_distances(data), cluster_labels)
 
 def conductance(graph, clusters):

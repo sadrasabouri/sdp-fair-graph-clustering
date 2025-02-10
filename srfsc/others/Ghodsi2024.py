@@ -98,6 +98,8 @@ def ind_fair_sc(A, groups, k, normalize_laplacian=False, normalize_evec=False):
 def group_fair_sc(A, groups, k, normalize_laplacian=False, normalize_evec=False):
     Fair_Mat = compute_R0(groups)
     Z = null_space(Fair_Mat.T)
+    if Z.shape[1] == 0:
+        return [None] * len(groups)
     L = compute_laplacian(A, normalize_laplacian)
     LL = np.matmul(Z.T, np.matmul(L, Z))
     LL = (LL + LL.T) / 2
