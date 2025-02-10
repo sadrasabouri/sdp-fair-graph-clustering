@@ -32,7 +32,7 @@ for n in [100]:
     print("KMeans:", modularity(G, convert_clusters_to_dict(x_kmeans.labels_)))
     print("Ghodsi:", modularity(G, convert_clusters_to_dict(x_ghodsi)))
     print("Kleindessner:", modularity(G, convert_clusters_to_dict(x_kleindessner)))
-    x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=2, metric=lambda x: modularity(G, convert_clusters_to_dict(x)))
+    x_srfsc_best, x_srfsc_params, x_srfsc_score, scores = fair_clustering_best_parameter(A, s, k=2, metric=lambda x: modularity(G, convert_clusters_to_dict(x)))
     print("SRFSC (mu={mu},lambda={y}):".format(**x_srfsc_params), modularity(G, convert_clusters_to_dict(x_srfsc_best.labels_)))
     
     print(">> NMI:")
@@ -72,7 +72,7 @@ for n in [100]:
     print("KMeans:", fairness_violation(convert_clusters_to_dict(x_kmeans.labels_), convert_clusters_to_dict(s)))
     print("Ghodsi:", fairness_violation(convert_clusters_to_dict(x_ghodsi), convert_clusters_to_dict(s)))
     print("Kleindessner:", fairness_violation(convert_clusters_to_dict(x_kleindessner), convert_clusters_to_dict(s)))
-    x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=2, metric=lambda x: fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
+    x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=2, metric=lambda x: -fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
     print("SRFSC (mu={mu},lambda={y}):".format(**x_srfsc_params), fairness_violation(convert_clusters_to_dict(x_srfsc_best.labels_), convert_clusters_to_dict(s)))
 
     print(">> Consistency Score:")
@@ -142,7 +142,7 @@ for n in [100]:
     print("KMeans:", fairness_violation(convert_clusters_to_dict(x_kmeans.labels_), convert_clusters_to_dict(s)))
     print("Ghodsi:", fairness_violation(convert_clusters_to_dict(x_ghodsi), convert_clusters_to_dict(s)))
     print("Kleindessner:", fairness_violation(convert_clusters_to_dict(x_kleindessner), convert_clusters_to_dict(s)))
-    x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=2, metric=lambda x: fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
+    x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=2, metric=lambda x: -fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
     print("SRFSC (mu={mu},lambda={y}):".format(**x_srfsc_params), fairness_violation(convert_clusters_to_dict(x_srfsc_best.labels_), convert_clusters_to_dict(s)))
 
     print(">> Consistency Score:")
@@ -215,7 +215,7 @@ for n in [100]:
     print("KMeans:", fairness_violation(convert_clusters_to_dict(x_kmeans.labels_), convert_clusters_to_dict(s)))
     print("Ghodsi:", fairness_violation(convert_clusters_to_dict(x_ghodsi), convert_clusters_to_dict(s)))
     print("Kleindessner:", fairness_violation(convert_clusters_to_dict(x_kleindessner), convert_clusters_to_dict(s)))
-    x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=2, metric=lambda x: fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
+    x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=2, metric=lambda x: -fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
     print("SRFSC (mu={mu},lambda={y}):".format(**x_srfsc_params), fairness_violation(convert_clusters_to_dict(x_srfsc_best.labels_), convert_clusters_to_dict(s)))
 
     print(">> Consistency Score:")
@@ -289,7 +289,7 @@ for n in [100]:
     print("KMeans:", fairness_violation(convert_clusters_to_dict(x_kmeans.labels_), convert_clusters_to_dict(s)))
     print("Ghodsi:", fairness_violation(convert_clusters_to_dict(x_ghodsi), convert_clusters_to_dict(s)))
     print("Kleindessner:", fairness_violation(convert_clusters_to_dict(x_kleindessner), convert_clusters_to_dict(s)))
-    x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=2, metric=lambda x: fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
+    x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=2, metric=lambda x: -fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
     print("SRFSC (mu={mu},lambda={y}):".format(**x_srfsc_params), fairness_violation(convert_clusters_to_dict(x_srfsc_best.labels_), convert_clusters_to_dict(s)))
 
     print(">> Consistency Score:")

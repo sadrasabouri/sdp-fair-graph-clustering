@@ -106,7 +106,7 @@ print("Spectral Clustering:", fairness_violation(convert_clusters_to_dict(x_sc.l
 print("KMeans:", fairness_violation(convert_clusters_to_dict(x_kmeans.labels_), convert_clusters_to_dict(s)))
 print("Ghodsi:", fairness_violation(convert_clusters_to_dict(x_ghodsi), convert_clusters_to_dict(s)))
 print("Kleindessner:", fairness_violation(convert_clusters_to_dict(x_kleindessner), convert_clusters_to_dict(s)))
-x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=best_k, metric=lambda x: fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
+x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=best_k, metric=lambda x: -fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
 print("SRFSC (mu={mu},lambda={y}):".format(**x_srfsc_params), fairness_violation(convert_clusters_to_dict(x_srfsc_best.labels_), convert_clusters_to_dict(s)))
 
 print(">> Consistency Score:")
@@ -183,7 +183,7 @@ print("Spectral Clustering:", fairness_violation(convert_clusters_to_dict(x_sc.l
 print("KMeans:", fairness_violation(convert_clusters_to_dict(x_kmeans.labels_), convert_clusters_to_dict(s)))
 print("Ghodsi:", fairness_violation(convert_clusters_to_dict(x_ghodsi), convert_clusters_to_dict(s)))
 print("Kleindessner:", fairness_violation(convert_clusters_to_dict(x_kleindessner), convert_clusters_to_dict(s)))
-x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=best_k, metric=lambda x: fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
+x_srfsc_best, x_srfsc_params, x_srfsc_score = fair_clustering_best_parameter(A, s, k=best_k, metric=lambda x: -fairness_violation(convert_clusters_to_dict(x), convert_clusters_to_dict(s)))
 print("SRFSC (mu={mu},lambda={y}):".format(**x_srfsc_params), fairness_violation(convert_clusters_to_dict(x_srfsc_best.labels_), convert_clusters_to_dict(s)))
 
 print(">> Consistency Score:")
