@@ -41,8 +41,8 @@ def process_all_networks(data_dir):
                         gender_indices.append(i)
 
             if gender_indices:
-                print(f"\nProcessing network {network_id}")
-                print(f"Gender features found at indices: {gender_indices}")
+                # print(f"\nProcessing network {network_id}")
+                # print(f"Gender features found at indices: {gender_indices}")
 
                 # Read corresponding feature file
                 feat_file = os.path.join(data_dir, f"{network_id}.feat")
@@ -64,7 +64,7 @@ def get_gender_data():
     data_dir = "./facebook_data/facebook"
 
     if not os.path.exists(data_dir):
-        print("Downloading and extracting data...")
+        # print("Downloading and extracting data...")
         download_and_extract_data()
 
     # Process networks to get gender information
@@ -79,14 +79,14 @@ def create_network_with_gender():
     # Create network from combined file
     G = nx.Graph()
 
-    print("\nReading edge data...")
+    # print("\nReading edge data...")
     with gzip.open('facebook_combined.txt.gz', 'rt') as f:
         for line in f:
             node1, node2 = map(int, line.strip().split())
             G.add_edge(node1, node2)
 
     # Add gender attributes to nodes
-    print("Adding gender attributes...")
+    # print("Adding gender attributes...")
     for network_id, network_data in gender_data.items():
         for node_id, gender_features in network_data.items():
             node_id = int(node_id)
@@ -94,7 +94,7 @@ def create_network_with_gender():
                 # Add these features as node attributes
                 G.nodes[node_id].update(gender_features)
 
-    print(f"Created network with {G.number_of_nodes()} nodes and {G.number_of_edges()} edges")
+    # print(f"Created network with {G.number_of_nodes()} nodes and {G.number_of_edges()} edges")
     return G, gender_data
 
 def create_filtered_network():
@@ -111,8 +111,8 @@ def create_filtered_network():
 
     # Remove nodes with pattern (0,0)
     G.remove_nodes_from(nodes_to_remove)
-    print(f"Removed {len(nodes_to_remove)} nodes with pattern (0,0)")
-    print(f"Network now has {G.number_of_nodes()} nodes and {G.number_of_edges()} edges")
+    # print(f"Removed {len(nodes_to_remove)} nodes with pattern (0,0)")
+    # print(f"Network now has {G.number_of_nodes()} nodes and {G.number_of_edges()} edges")
 
     return G
 
@@ -130,8 +130,8 @@ def analyze_gender_patterns(G):
     # Sort patterns by count
     sorted_patterns = sorted(patterns.items(), key=lambda x: x[1], reverse=True)
 
-    print("\nDetailed Gender Pattern Analysis:")
-    print("--------------------------------")
+    # print("\nDetailed Gender Pattern Analysis:")
+    # print("--------------------------------")
     total_nodes = G.number_of_nodes()
     for pattern, count in sorted_patterns:
         print(f"Pattern {pattern}: {count} nodes ({count/total_nodes*100:.2f}%)")
@@ -251,31 +251,31 @@ def create_and_visualize_adjacency_matrix(G):
 
 def analyze_network_metrics(G):
     """Analyze various network metrics"""
-    print("\nNetwork Metrics Analysis:")
-    print("------------------------")
+    # print("\nNetwork Metrics Analysis:")
+    # print("------------------------")
 
     # Basic metrics
-    print(f"Number of nodes: {G.number_of_nodes()}")
-    print(f"Number of edges: {G.number_of_edges()}")
+    # print(f"Number of nodes: {G.number_of_nodes()}")
+    # print(f"Number of edges: {G.number_of_edges()}")
 
     # Density
     density = nx.density(G)
-    print(f"Network density: {density:.4f}")
+    # print(f"Network density: {density:.4f}")
 
     # Average clustering coefficient
     avg_clustering = nx.average_clustering(G)
-    print(f"Average clustering coefficient: {avg_clustering:.4f}")
+    # print(f"Average clustering coefficient: {avg_clustering:.4f}")
 
     # Average shortest path length
     avg_path = nx.average_shortest_path_length(G)
-    print(f"Average shortest path length: {avg_path:.4f}")
+    # print(f"Average shortest path length: {avg_path:.4f}")
 
     # Degree statistics
     degrees = [d for n, d in G.degree()]
     avg_degree = sum(degrees) / len(degrees)
-    print(f"Average degree: {avg_degree:.2f}")
-    print(f"Maximum degree: {max(degrees)}")
-    print(f"Minimum degree: {min(degrees)}")
+    # print(f"Average degree: {avg_degree:.2f}")
+    # print(f"Maximum degree: {max(degrees)}")
+    # print(f"Minimum degree: {min(degrees)}")
 
 def visualize_degree_distribution(G):
     """Visualize the degree distribution"""
@@ -310,19 +310,19 @@ def extract_adjacency_and_features(G):
                 s[idx] = values[0]  # use first gender feature as sensitive attribute
 
     # Print statistics about sensitive attribute distribution
-    print("\nSensitive Attribute Distribution:")
-    print("-" * 30)
-    print(f"Total nodes: {len(s)}")
-    print(f"Nodes with s=0: {np.sum(s == 0)}")
-    print(f"Nodes with s=1: {np.sum(s == 1)}")
-    print(f"Ratio s=1/total: {np.sum(s == 1)/len(s):.4f}")
+    # print("\nSensitive Attribute Distribution:")
+    # print("-" * 30)
+    # print(f"Total nodes: {len(s)}")
+    # print(f"Nodes with s=0: {np.sum(s == 0)}")
+    # print(f"Nodes with s=1: {np.sum(s == 1)}")
+    # print(f"Ratio s=1/total: {np.sum(s == 1)/len(s):.4f}")
 
     return A, s
 
 def analyze_network_by_sensitive(G, s):
     """Analyze network characteristics by sensitive attribute"""
-    print("\nNetwork Analysis by Sensitive Attribute:")
-    print("-" * 35)
+    # print("\nNetwork Analysis by Sensitive Attribute:")
+    # print("-" * 35)
 
     # Create mapping of old node IDs to new sequential indices
     node_to_idx = {node: idx for idx, node in enumerate(sorted(G.nodes()))}
@@ -332,9 +332,9 @@ def analyze_network_by_sensitive(G, s):
     s0_degrees = [degrees[node] for node, idx in node_to_idx.items() if s[idx] == 0]
     s1_degrees = [degrees[node] for node, idx in node_to_idx.items() if s[idx] == 1]
 
-    print(f"Average degree (s=0): {np.mean(s0_degrees):.2f}")
-    print(f"Average degree (s=1): {np.mean(s1_degrees):.2f}")
-    print(f"Degree ratio (s=1/s=0): {np.mean(s1_degrees)/np.mean(s0_degrees):.2f}")
+    # print(f"Average degree (s=0): {np.mean(s0_degrees):.2f}")
+    # print(f"Average degree (s=1): {np.mean(s1_degrees):.2f}")
+    # print(f"Degree ratio (s=1/s=0): {np.mean(s1_degrees)/np.mean(s0_degrees):.2f}")
 
 def visualize_sensitive_distribution(G, s):
     """Visualize distribution of sensitive attribute"""
@@ -364,6 +364,15 @@ def visualize_sensitive_distribution(G, s):
     plt.savefig('sensitive_distribution.png', dpi=300, bbox_inches='tight')
     plt.show()
     plt.close()
+
+def load_facebook():
+    """Load the Facebook social network dataset"""
+    # Download and extract data
+    download_and_extract_data()
+
+    # Create filtered network
+    G_filtered = create_filtered_network()
+    return extract_adjacency_and_features(G_filtered)
 
 def main():
     # Create filtered network

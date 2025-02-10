@@ -156,6 +156,7 @@ def fair_SC_unnormalized(adj, k, sensitive):
             Y[:, i] = Y[:, i] / np.sqrt(abs(eigvals[i]))
 
     H = Z @ Y
+    H = np.squeeze(np.asarray(H))
     norms = np.sqrt(np.sum(H * H, axis=1))
     H = H / norms[:, np.newaxis]
 

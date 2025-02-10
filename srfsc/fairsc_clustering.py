@@ -57,7 +57,7 @@ def fair_clustering_best_parameter(A: np.ndarray,
     best_params = None
     best_cluster = None
 
-    for mu, y in itertools.product(mu_range, y_range):
+    for mu, y in tqdm(itertools.product(mu_range, y_range)):
         x = fair_clustering_wk(A, s, mu=mu, y=y, k=k)
         score = metric(x.labels_)
         if score > best_score:
@@ -86,6 +86,7 @@ def fair_clustering_wk(A: np.ndarray,
     """
     assert A.shape[0] == s.shape[0] and A.shape[1] == s.shape[0], "s should be a vector of size A's rows and columns"
     A_ = _get_fair_normalized_adj_matrix(A, s, mu, y)
+    A_ = np.asarray(A_)
     x = SpectralClustering(n_clusters=k,
                            affinity='precomputed',
                            assign_labels='discretize',
