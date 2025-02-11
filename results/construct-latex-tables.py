@@ -87,16 +87,20 @@ def generate_latex_table(synth_dataset_names: List,
         latex += row
 
     # SRFSC rows
-    for mu, y in itertools.product(np.arange(0, 1, 0.2), np.arange(0, 1, 0.2)):
+    for mu, y in itertools.product(np.arange(0, 1, 0.2), np.arange(0, 10, 0.1)):
         row = f"    SRFSC ($\mu={mu:.2f}, \lambda={y:.2f}$) & "
         for dataset_name in synth_dataset_names:
             for metric_name in metrics:
                 score = get_srfsc_scores(LATEX_TERM2_DATASET[dataset_name][LATEX_TERM2_METRIC[metric_name]]['SRFSC'])
+                if metric_name == "FV↓":
+                    score = {k: -v for k, v in score.items()} # due a mistake in implementation
                 row += f"{score[(mu, y)]:.3f} & "
             row += "   "
         for dataset_name in real_dataset_names:
             for metric_name in metrics:
                 score = get_srfsc_scores(LATEX_TERM2_DATASET[dataset_name][LATEX_TERM2_METRIC[metric_name]]['SRFSC'])
+                if metric_name == "FV↓":
+                    score = {k: -v for k, v in score.items()} # due a mistake in implementation
                 row += f"{score[((mu, y))]:.3f} & "
             row += "   "
         row = row[:-6] + " \\\\ \n"
@@ -116,4 +120,4 @@ def generate_latex_table(synth_dataset_names: List,
 # Example usage
 print(generate_latex_table(["BU", "BB", "5U", "5B"],
                            ["Moreno", "Facebook"],
-                           ["M↑", "NMI↑", "C↓", "S↑", "CB↑", "FV↓", "CS↓"]))
+                           ["M↑", "NMI↑", "CB↑", "FV↓"]))

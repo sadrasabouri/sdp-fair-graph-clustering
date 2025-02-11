@@ -38,8 +38,8 @@ def _get_fair_normalized_adj_matrix(A: np.ndarray,
 def fair_clustering_best_parameter(A: np.ndarray,
                                    s: np.ndarray,
                                    metric: Callable,
-                                   mu_range: list=np.arange(0, 1, 0.1),
-                                   y_range: list=np.arange(0, 1, 0.1),
+                                   mu_range: list=np.arange(0, 1, 0.2),
+                                   y_range: list=np.arange(0, 10, 0.1),
                                    k: int=2):
     """
     Fair clustering with best parameters using greedy search.
